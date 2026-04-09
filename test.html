@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>StrengthIQ Test</title>
+<style>
+  body { background: #111318; color: #f1f5f9; font-family: sans-serif; padding: 20px; margin: 0; }
+  #status { background: #ef4444; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-weight: bold; }
+  #status.ok { background: #22c55e; }
+  #log { font-size: 12px; font-family: monospace; white-space: pre-wrap; color: #94a3b8; }
+</style>
+</head>
+<body style="background:#111318">
+<div id="status">Initialisiere...</div>
+<div id="log"></div>
+<script>
+var log = [];
+function dbg(msg) {
+  log.push(msg);
+  document.getElementById('log').textContent = log.join('\n');
+  console.log(msg);
+}
+function ok(msg) {
+  document.getElementById('status').className = 'ok';
+  document.getElementById('status').textContent = msg;
+  dbg('OK: ' + msg);
+}
+function err(msg) {
+  document.getElementById('status').textContent = 'FEHLER: ' + msg;
+  dbg('ERR: ' + msg);
+}
+
+window.onerror = function(msg, src, line) {
+  err(msg + ' (line ' + line + ')');
+};
+
+try {
+  dbg('body.display = ' + document.body.style.display);
+  dbg('body computed = ' + getComputedStyle(document.body).display);
+  
+  var name = localStorage.getItem('tl_name') || '';
+  dbg('USERNAME = ' + JSON.stringify(name));
+  
+  var wks = [];
+  try { wks = JSON.parse(localStorage.getItem('tl_wks') || '[]'); }
+  catch(e) { dbg('WKS parse error: ' + e.message); }
+  dbg('WKS count = ' + wks.length);
+  
+  ok('Basistest bestanden - ' + wks.length + ' Trainings, User: ' + (name||'neu'));
+} catch(e) {
+  err(e.message);
+}
+</script>
+</body>
+</html>
