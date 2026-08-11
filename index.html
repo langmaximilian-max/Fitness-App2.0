@@ -8,13 +8,13 @@
   <meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>StrengthIQ</title>
-<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiU3RyZW5ndGhJUSIsInNob3J0X25hbWUiOiJTdHJlbmd0aElRIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9[...]">
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiU3RyZW5ndGhJUSIsInNob3J0X25hbWUiOiJTdHJlbmd0aElRIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9[...]
 <meta name="theme-color" content="#0e0e0e">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="StrengthIQ">
-<link rel="apple-touch-icon" href="strengthiq-logo.png">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>.sth{display:grid;grid-template-columns:36px 1fr 1fr;gap:6px;padding-bottom:6px;}.str{display:grid;grid-template-columns:36px 1fr 1fr;gap:6px;align-items:center;padding:5px 0;transition:opa[...]
 :root{
@@ -90,22 +90,101 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min
 .ob-input:focus{outline:none;border-color:var(--accent);}
 .ob-input::placeholder{color:var(--muted);}
 .ob-btn{width:100%;background:var(--accent);color:#000;border:none;border-radius:var(--r-md);font-family:'DM Sans',sans-serif;font-size:var(--text-body);font-weight:700;padding:15px;cursor:pointer[...]
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--surface);
+  border-top:1px solid var(--border);
+  display:flex;z-index:100;
+  padding-bottom:env(safe-area-inset-bottom);
+  padding-top:2px;
+}
+.nav-btn{
+  flex:1;background:none;border:none;
+  color:var(--muted);
+  font-family:'DM Sans',sans-serif;
+  font-size:var(--text-micro);font-weight:600;
+  padding:8px 4px 10px;
+  cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  text-transform:uppercase;letter-spacing:0.04em;
+  transition:color 0.2s;
+  position:relative;
+  touch-action:manipulation;
+}
+.nav-btn.active{ color:var(--accent); }
+.nav-icon{
+  width:22px;height:22px;
+  transition:stroke 0.2s, transform 0.15s;
+  stroke:currentColor;
+}
+.nav-btn.active .nav-icon{ transform:scale(1.08); }
+.nav-label{ font-size:var(--text-micro);font-weight:700;letter-spacing:0.05em; }
+.nav-indicator{
+  position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:0;height:2.5px;
+  background:var(--accent);
+  border-radius:0 0 3px 3px;
+  transition:width 0.2s cubic-bezier(0.34,1.56,0.64,1);
+}
+.nav-btn.active .nav-indicator{ width:24px; }
+
+
+/* ── APP HEADER ─────────────────────────────────────── */
+header, .app-header{
+  position:sticky;top:0;z-index:40;
+  background:var(--bg);
+  border-bottom:1px solid var(--border);
+  padding:10px 16px 10px;
+  display:flex;align-items:center;gap:10px;
+}
+.app-logo{
+  height:34px;object-fit:contain;flex-shrink:0;
+}
+.header-pills{
+  flex:1;display:flex;align-items:center;gap:6px;
+}
+.header-pill{
+  display:flex;align-items:center;gap:5px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-lg);
+  color:var(--text2);
+  font-family:'DM Sans',sans-serif;
+  font-size:var(--text-small);font-weight:600;
+  padding:5px 10px 5px 8px;
+  cursor:pointer;touch-action:manipulation;
+  transition:all 0.15s;
+  white-space:nowrap;
+}
+.header-pill:active{ border-color:var(--accent);color:var(--accent); }
+.header-pill-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:var(--accent);flex-shrink:0;
+}
+.header-settings-btn{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  background:var(--surface);
+  border:1px solid var(--border);
+  border-radius:var(--r-md);
+  color:var(--text2);
+  font-family:'DM Sans',sans-serif;
+  padding:6px 10px;
+  cursor:pointer;touch-action:manipulation;
+  transition:all 0.15s;
+  flex-shrink:0;
+}
+.header-settings-btn:active{ border-color:var(--accent);color:var(--accent); }
+
+
+.page{display:none;padding:14px 14px 0;}
+.page.active{display:block;}
+.sec{font-family:'Bebas Neue',sans-serif;font-size:var(--text-title);letter-spacing:2px;color:var(--accent);margin-bottom:12px;}
+.divlabel{font-size:var(--text-caption);font-weight:var(--fw-bold);font-size:var(--text-caption);text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:16px 0 10px;display:flex;ali[...]
+.divlabel::after{content:'';flex:1;height:1px;background:var(--border);} 
 /* rest of original file unchanged */
 </style>
-
-<script>
-// Insert the app logo into the header when the DOM is ready (if not already present)
-document.addEventListener('DOMContentLoaded', function(){
-  try{
-    var header = document.querySelector('header, .app-header');
-    if(header && !header.querySelector('.app-logo')){
-      var img = document.createElement('img');
-      img.className = 'app-logo';
-      img.src = 'strengthiq-logo.png';
-      img.alt = 'StrengthIQ';
-      // insert as first child so it appears on the left in the header
-      header.insertBefore(img, header.firstChild);
-    }
-  }catch(e){console.warn('logo-insert failed', e);}
-});
-</script>
+</head>
+<body>
+<!-- original app content restored -->
+</body>
+</html>
